@@ -29,9 +29,11 @@ protected:
 public:
 	HashTable(int m = 10);
 	~HashTable();
-	int h1(K key) = 0;
-	int h2(K key) = 0;
+	uint64_t h1(K key) = 0;
+	uint64_t h2(K key) = 0;
 	int hash(K key, int i);
+	void insert(K key, T val);
+	T search(K key);
 	// TODO: add here the declaration of the functions insert, search and remove.
 	void print();
 };
@@ -87,4 +89,38 @@ inline int HashTable<K, T>::hash(K key, int i)
 		}
 		return index;
 	}
+}
+
+template<class K, class T>
+inline void HashTable<K,T>::insert(K key, T val)
+{
+	int index = hash(key, 0);
+	table[index].flag = FULL;
+	table[index].key = key;
+	table[index].data = val;
+	return;
+}
+
+
+template<class K, class T>
+inline T HashTable<K,T>::search(K key)
+{
+	if (table[h1(key)].key == key)
+		return table[h1(key)].data;
+	else
+		{	
+			while(table[index].flag != EMPTY)
+			{
+				
+				index = h1(key) + i * h2(key) % size;
+				if (table[index].key == key)
+					return table[index].data;
+				++i;
+
+			}
+			if (table[index].flag == EMPTY)
+				throw ("key does not exist in table\n") //THERE MIGHT BE AN ISSUE OF FORMATTING IN \n
+				
+		}
+
 }
