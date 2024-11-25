@@ -16,12 +16,12 @@ template <class T>
 uint64_t IntHash<T>::h1(int k)
 {
 
-	return k % this->size
+	return k % this->size;
 
 }
 
 template <class T>
 uint64_t IntHash<T>::h2(int k)
 {
-	return 1 + k % (this->size - 1)
+	return 1 + k % (this->size - 1);
 }

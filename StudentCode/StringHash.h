@@ -39,15 +39,15 @@ int StringHash<T>::largest_prime_smaller(int n)
 template <class T>
 uint64_t StringHash<T>::h1(string k)
 {
-	m = this -> size
+	m = this -> size;
 
 	int result;
 	for (int i = 0; i < k.size(); i++)
 	{
-		result += (int(k[i])*256**i)%m
+		result += (int(k[i]) * 256**i ) % m;
 	}
 
-	return result
+	return result;
 
 }
 
@@ -56,11 +56,11 @@ template <class T>
 uint64_t StringHash<T>::h2(string k)
 {
 
-	m = this -> size
+	m = this -> size;
 
-	l = largest_prime_smaller(m)
+	l = largest_prime_smaller(m);
 
-	return l - (int(k) % l)
+	return l - (int(k) % l);
 
 }
 
