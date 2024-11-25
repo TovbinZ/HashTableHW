@@ -80,7 +80,7 @@ inline int HashTable<K, T>::hash(K key, int i)
 	else
 	{
 		index = h1(key)
-		while(table[index].flag == FULL])
+		while(table[index].flag == FULL)
 		{
 			index = h1(key) + i * h2(key) % size;
 			++i;
