@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "PrimeUtil.h"
 using namespace std;
 
 enum state { EMPTY, FULL, DELETED };
@@ -29,8 +30,8 @@ protected:
 public:
 	HashTable(int m = 10);
 	~HashTable();
-	uint64_t h1(K key) = 0;
-	uint64_t h2(K key) = 0;
+	virtual uint64_t h1(K key) = 0;
+	virtual uint64_t h2(K key) = 0;
 	int hash(K key, int i);
 	void insert(K key, T val);
 	T search(K key);
@@ -43,11 +44,11 @@ template<class K, class T >
 HashTable<K, T>::HashTable(int m)
 {
 	this->size = m;
-	while(!PrimeUtil.prime(this->size))
+	while(!(PrimeUtil::prime(this->size)))
 	{
 		++this->size;
 	}
-	this->table = new Item()[size];
+	table = new Item[size];
 	
 }
 
@@ -71,10 +72,12 @@ inline void HashTable<K, T>::print()
 template<class K, class T>
 inline int HashTable<K, T>::hash(K key, int i)
 {
-	if (i = 0)
+	if (i == 0)
 	{
-		if (table[h1(key)].flag == FULL);
+		if (table[h1(key)].flag == FULL)
+		{
 			hash(key, 1);
+		}
 		else
 		{	
 			return h1(key);
@@ -82,7 +85,8 @@ inline int HashTable<K, T>::hash(K key, int i)
 	}
 	else
 	{
-		index = h1(key)
+		i = 1;
+		int index = h1(key);
 		while(table[index].flag == FULL)
 		{
 			index = h1(key) + i * h2(key) % size;
@@ -110,6 +114,7 @@ inline T HashTable<K,T>::search(K key)
 		return table[h1(key)].data;
 	else
 		{	
+			int i = 1;
 			while(table[index].flag != EMPTY)
 			{
 				
@@ -120,7 +125,7 @@ inline T HashTable<K,T>::search(K key)
 
 			}
 			if (table[index].flag == EMPTY)
-				throw ("key does not exist in table\n") //THERE MIGHT BE AN ISSUE OF FORMATTING IN \n
+				throw ("key does not exist in table\n"); //THERE MIGHT BE AN ISSUE OF FORMATTING IN \n
 				
 		}
 
@@ -140,6 +145,7 @@ inline void HashTable<K, T>::remove(K key)
 		table[h1(key)].flag == DELETED;
 	else
 		{	
+			int i = 1;
 			while(table[index].flag != EMPTY)
 			{
 				

@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    HashTable myHashTable = HashTable();
+    IntHash<int> myStringHash = IntHash<int>();
     
 }

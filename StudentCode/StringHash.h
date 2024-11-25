@@ -1,5 +1,7 @@
 #pragma once
 #include "PrimeUtil.h"
+#include"HashTable.h"
+#include <cmath>
 
 template <class T>
 class StringHash :public HashTable<string, T>
@@ -39,12 +41,12 @@ int StringHash<T>::largest_prime_smaller(int n)
 template <class T>
 uint64_t StringHash<T>::h1(string k)
 {
-	m = this -> size;
+	int m = this -> size;
 
-	int result;
+	int result = 0;
 	for (int i = 0; i < k.size(); i++)
 	{
-		result += (int(k[i]) * 256**i ) % m;
+		result += int((int(k[i]) * pow(256,i) )) % m;
 	}
 
 	return result;
@@ -56,11 +58,11 @@ template <class T>
 uint64_t StringHash<T>::h2(string k)
 {
 
-	m = this -> size;
+	int m = this -> size;
 
-	l = largest_prime_smaller(m);
+	int l = largest_prime_smaller(m);
 
-	return l - (int(k) % l);
+	return l - (stoi(k) % l);
 
 }
 
