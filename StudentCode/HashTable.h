@@ -85,7 +85,7 @@ inline int HashTable<K, T>::hash(K key, int i)
 	}
 	else
 	{
-		i = 1;
+		i = 0;
 		int index = h1(key);
 		while(table[index].flag == FULL)
 		{
@@ -114,7 +114,8 @@ inline T HashTable<K,T>::search(K key)
 		return table[h1(key)].data;
 	else
 		{	
-			int i = 1;
+			int i = 0;
+			int index = h1(key);
 			while(table[index].flag != EMPTY)
 			{
 				
@@ -142,10 +143,11 @@ inline void HashTable<K, T>::remove(K key)
 		return;
 	}
 	if (table[h1(key)].key == key)
-		table[h1(key)].flag == DELETED;
+		table[h1(key)].flag = DELETED;
 	else
 		{	
-			int i = 1;
+			int i = 0;
+			int index = h1(key);
 			while(table[index].flag != EMPTY)
 			{
 				
