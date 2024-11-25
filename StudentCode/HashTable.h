@@ -34,6 +34,7 @@ public:
 	int hash(K key, int i);
 	void insert(K key, T val);
 	T search(K key);
+	void remove (K key);
 	// TODO: add here the declaration of the functions insert, search and remove.
 	void print();
 };
@@ -123,4 +124,31 @@ inline T HashTable<K,T>::search(K key)
 				
 		}
 
+}
+
+template<class K, class T>
+inline void HashTable<K, T>::remove(K key)
+{
+	try {
+		T val = search(key);
+	}
+	catch (const char* e)
+	{
+		return;
+	}
+	if (table[h1(key)].key == key)
+		table[h1(key)].flag == DELETED;
+	else
+		{	
+			while(table[index].flag != EMPTY)
+			{
+				
+				index = h1(key) + i * h2(key) % size;
+				if (table[index].key == key)
+					table[index].flag == DELETED;
+				++i;
+
+			}
+		}
+	return;
 }
