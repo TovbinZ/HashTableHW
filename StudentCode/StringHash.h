@@ -1,11 +1,13 @@
 #pragma once
+#include "PrimeUtil.h"
 
 template <class T>
 class StringHash :public HashTable<string, T>
 {
 private:
-	int h1(string k);
-	int h2(string k);
+	uint64_t h1(string k);
+	uint64_t h2(string k);
+	int largest_prime_smaller(int n);
 
 public:
 	StringHash(int m = 10) :HashTable<string, T>(m) {}
@@ -14,21 +16,52 @@ public:
 
 
 template <class T>
-int StringHash<T>::h1(string k)
+int StringHash<T>::largest_prime_smaller(int n)
+{
+	n = n - 1;
+	while(true)
+	{
+		if (PrimeUtil::prime(n))
+		{
+			return n;
+		}
+		else
+		{
+			n = n - 1;
+		}
+	}
+
+}
+
+
+
+
+template <class T>
+uint64_t StringHash<T>::h1(string k)
 {
 	m = this -> size
 
 	int result;
 	for (int i = 0; i < k.size(); i++)
 	{
-		result += (int(k[i])**i)%m
+		result += (int(k[i])*256**i)%m
 	}
-	
+
+	return result
+
 }
 
 
 template <class T>
-int StringHash<T>::h2(string k)
+uint64_t StringHash<T>::h2(string k)
 {
 
+	m = this -> size
+
+	l = largest_prime_smaller(m)
+
+	return l - (int(k) % l)
+
 }
+
+
