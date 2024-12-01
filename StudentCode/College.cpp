@@ -8,6 +8,7 @@ void College::addCourse()
 	cout << "enter course id" << endl;
 	cin >> num;
 	// TODO: Add the course to the courses table
+	this->courses.insert(num, name);
 }
 void College::removeCourse()
 {
@@ -15,6 +16,7 @@ void College::removeCourse()
 	cout << "enter course id" << endl;
 	cin >> num;
 	// TODO: Remove the course from the course table
+	this->courses.remove(num);
 }
 void College::addStudent()
 {
@@ -23,6 +25,8 @@ void College::addStudent()
 	cin >> name;
 	list<int> lst;
 	// TODO: Insert the student to the students table
+	this->students.insert(name, lst);
+	students.print();
 }
 void College::removeStudent()
 {
@@ -30,6 +34,7 @@ void College::removeStudent()
 	cout << "enter students name" << endl;
 	cin >> name;
 	// TODO: Remove the student from the student table
+	students.remove(name);
 }
 void College::registration()
 {
@@ -41,6 +46,8 @@ void College::registration()
 	cin >> num;
 	try {
 		// TODO: add the course id (if it exists) to the end of the student's course-list
+		this->courses.search(num);
+		this->students.search(name).push_back(num);
 	}
 	catch (const char* msg)
 	{
@@ -57,6 +64,9 @@ void College::removeReg()
 	cin >> num;
 	try {
 		// TODO: remove the course id (if it exists) from the student's list
+		courses.search(num);
+		students.search(name).remove(num);
+
 	}
 	catch (const char* msg)
 	{
@@ -69,11 +79,13 @@ void College::print()
 	cout << "enter students name" << endl;
 	cin >> name;
 	try {
-		list<int> lst; // TODO: fix, so this would be the student's courses lis
+		list<int> lst = students.search(name);// TODO: fix, so this would be the student's courses lis 
+		if (lst.size() == 1)
+			cout << courses.search(*lst.begin());
 		for (list<int>::iterator it = lst.begin(); it != lst.end(); it++)
 		{
 			int k = *it;
-			Course c; // TODO: fix
+			Course c = courses.search(k); // TODO: fix
 			cout << c.getName() << ' ';
 		}
 		cout << endl;

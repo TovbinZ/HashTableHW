@@ -60,10 +60,10 @@ uint64_t StringHash<T>::h2(string k)
 
 	int m = this -> size;
 
-	int l = largest_prime_smaller(m);
+	uint64_t l = largest_prime_smaller(m);
 
-	return l - (stoi(k) % l);
+	return l - (h1(k) % l);
 
 }
 
-
+//fcuk zev

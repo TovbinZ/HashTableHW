@@ -22,7 +22,6 @@ protected:
 
 	int size;
 	Item* table; //this is root
-	Item* next;
 	// TODO: Add any additional required attributes
 	// TODO: Add here the declaration of the functions h1, h2. 
 	// TODO: Based on the functions, define the hash function, using double hashing
@@ -34,7 +33,7 @@ public:
 	virtual uint64_t h2(K key) = 0;
 	int hash(K key, int i);
 	void insert(K key, T val);
-	T search(K key);
+	T& search(K key);
 	void remove (K key);
 	// TODO: add here the declaration of the functions insert, search and remove.
 	void print();
@@ -83,14 +82,19 @@ inline int HashTable<K, T>::hash(K key, int i)
 			return h1(key);
 		}
 	}
+	
 	else
 	{
 		i = 0;
 		int index = h1(key);
 		while(table[index].flag == FULL)
 		{
+			if (table[index].key == key)
+				return index;
 			index = h1(key) + i * h2(key) % size;
 			++i;
+			if (table[index].key == key)
+				return index;
 		}
 		return index;
 	}
@@ -101,6 +105,16 @@ inline void HashTable<K,T>::insert(K key, T val)
 {
 	int index = hash(key, 0);
 	table[index].flag = FULL;
+	string var = "hello";
+	/*if (typeid(key).name() == typeid(var).name())
+	{
+		
+	}
+	else
+	{
+		table[index].key = key;
+
+	}*/
 	table[index].key = key;
 	table[index].data = val;
 	return;
@@ -108,22 +122,26 @@ inline void HashTable<K,T>::insert(K key, T val)
 
 
 template<class K, class T>
-inline T HashTable<K,T>::search(K key)
+inline T& HashTable<K,T>::search(K key)
 {
-	if (table[h1(key)].key == key)
-		return table[h1(key)].data;
+	int hash1 = h1(key);
+	int hash2 = h2(key);
+	if (table[hash1].key == key)
+		return table[hash1].data;
 	else
 		{	
 			int i = 0;
-			int index = h1(key);
+			int index = hash1;
 			while(table[index].flag != EMPTY)
 			{
 				
-				index = h1(key) + i * h2(key) % size;
-				if (table[index].key == key)
+				index = hash1 + i * hash2 % size;
+				if (table[index].key == key and table[index].flag != DELETED)
 					return table[index].data;
-				++i;
 
+				else if (table[index].key == key)
+					throw ("key does not exist in table\n");
+				++i;
 			}
 			if (table[index].flag == EMPTY)
 				throw ("key does not exist in table\n"); //THERE MIGHT BE AN ISSUE OF FORMATTING IN \n
@@ -135,7 +153,7 @@ inline T HashTable<K,T>::search(K key)
 template<class K, class T>
 inline void HashTable<K, T>::remove(K key)
 {
-	try {
+	/*try {
 		T val = search(key);
 	}
 	catch (const char* e)
@@ -157,6 +175,9 @@ inline void HashTable<K, T>::remove(K key)
 				++i;
 
 			}
-		}
+		}*/
+	int index = hash(key, 0);
+	if (table[index].flag == FULL)
+		table[index].flag = DELETED;
 	return;
 }
