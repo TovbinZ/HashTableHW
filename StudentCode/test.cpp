@@ -3,7 +3,7 @@
 #include "IntHash.h"
 using namespace std;
 
-int main()
+int main__()
 {
     IntHash<int> myStringHash = IntHash<int>();
     

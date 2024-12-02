@@ -98,6 +98,8 @@ inline int HashTable<K, T>::hash(K key, int i)
 		}
 		return index;
 	}
+
+	return 0;
 }
 
 template<class K, class T>
