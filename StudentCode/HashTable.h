@@ -150,6 +150,8 @@ inline T& HashTable<K,T>::search(K key)
 				
 		}
 
+	return table[hash1].data;
+
 }
 
 template<class K, class T>
