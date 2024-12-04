@@ -26,7 +26,7 @@ void College::addStudent()
 	list<int> lst;
 	// TODO: Insert the student to the students table
 	this->students.insert(name, lst);
-	students.print();
+	
 }
 void College::removeStudent()
 {
@@ -80,8 +80,8 @@ void College::print()
 	cin >> name;
 	try {
 		list<int> lst = students.search(name);// TODO: fix, so this would be the student's courses lis 
-		if (lst.size() == 1)
-			cout << courses.search(*lst.begin());
+		//if (lst.size() == 1)
+		//	cout << courses.search(*lst.begin());
 		for (list<int>::iterator it = lst.begin(); it != lst.end(); it++)
 		{
 			int k = *it;
