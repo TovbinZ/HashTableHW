@@ -65,49 +65,54 @@ inline void HashTable<K, T>::print()
 	for (int i = 0; i < size; i++)
 		if (table[i].flag == FULL)
 			cout << i << ":\t" << table[i].key << '\n';
+		else if (table[i].flag == DELETED)
+			cout << i << ":\t" << "DELETED" << '\n';
 }
 
 
 template<class K, class T>
 inline int HashTable<K, T>::hash(K key, int i)
 {
+	uint64_t hash1 = h1(key) % this->size;
+	uint64_t hash2 = h2(key) % this->size;
+	if (table[hash1].key == key)
+		return hash1 % this->size;
 	if (i == 0)
 	{
-		if (table[h1(key)].flag == FULL)
+		
+		if (table[hash1].flag == FULL)
 		{
-			hash(key, 1);
+			return hash(key, 1);
 		}
 		else
 		{	
-			return h1(key);
+			return hash1 % this->size;
 		}
 	}
 	
 	else
 	{
 		i = 0;
-		int index = h1(key);
+		int index = hash1 % this->size;
 		while(table[index].flag == FULL)
 		{
 			if (table[index].key == key)
-				return index;
-			index = h1(key) + i * h2(key) % size;
+				return index % this->size;
+			index = (hash1 + i * hash2) % this->size;
 			++i;
-			if (table[index].key == key)
-				return index;
+			//if (table[index].key == key)
+			//	return index % this->size;
 		}
-		return index;
+		return index % this->size;
 	}
-
-	return 0;
 }
 
 template<class K, class T>
 inline void HashTable<K,T>::insert(K key, T val)
 {
-	int index = hash(key, 0);
+	uint64_t index = hash(key, 0);
 	table[index].flag = FULL;
-	string var = "hello";
+	//string var = "hello";
 	/*if (typeid(key).name() == typeid(var).name())
 	{
 		
@@ -117,8 +122,14 @@ inline void HashTable<K,T>::insert(K key, T val)
 		table[index].key = key;
 
 	}*/
-	table[index].key = key;
-	table[index].data = val;
+	
+	//cout << "TESTING" << endl;
+	
+	//cout << key << endl;
+		//	table[index].key = var;
+	//cout << typeid(this->table[index].key).name() << endl;;
+	this->table[index].key = key;
+	this->table[index].data = val;
 	return;
 }
 
@@ -128,30 +139,29 @@ inline T& HashTable<K,T>::search(K key)
 {
 	int hash1 = h1(key);
 	int hash2 = h2(key);
-	if (table[hash1].key == key)
+	if (table[hash1].key == key and table[hash1].flag != DELETED)
 		return table[hash1].data;
 	else
 		{	
-			int i = 0;
-			int index = hash1;
-			while(table[index].flag != EMPTY)
+			//int i = 0;
+			int index = hash1 % this->size;
+			//while(table[index].flag != EMPTY)
+			for(int i = 0; i <= this->size; ++i)
 			{
 				
-				index = hash1 + i * hash2 % size;
+				index = (hash1 + i * hash2) % size;
 				if (table[index].key == key and table[index].flag != DELETED)
 					return table[index].data;
 
 				else if (table[index].key == key)
-					throw ("key does not exist in table\n");
-				++i;
+					throw ("key does not exist in table");
+				//++i;
 			}
-			if (table[index].flag == EMPTY)
-				throw ("key does not exist in table\n"); //THERE MIGHT BE AN ISSUE OF FORMATTING IN \n
+			if (table[index].flag != FULL)
+				throw ("key does not exist in table"); //THERE MIGHT BE AN ISSUE OF FORMATTING IN \n
 				
 		}
-
-	return table[hash1].data;
-
+	return table[hash1].data; //catching warning
 }
 
 template<class K, class T>
