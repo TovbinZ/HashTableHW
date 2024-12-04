@@ -43,10 +43,10 @@ uint64_t StringHash<T>::h1(string k)
 {
 	int m = this -> size;
 
-	int result = 0;
+	uint64_t result = 0;
 	for (int i = 0; i < k.size(); i++)
 	{
-		result += int((int(k[i]) * pow(256,i) )) % m;
+		result += uint64_t(((k[i]) * pow(256,i) )) % m;
 	}
 
 	return result;
@@ -57,13 +57,14 @@ uint64_t StringHash<T>::h1(string k)
 template <class T>
 uint64_t StringHash<T>::h2(string k)
 {
+	
+	//int m = this->size;
 
-	int m = this -> size;
+	//uint64_t l = largest_prime_smaller(m);
 
-	uint64_t l = largest_prime_smaller(m);
-
-	return l - (h1(k) % l);
-
+	//return l - (h1(k) % l);
+	
+	return 1;
 }
 
-//fcuk zev
+
